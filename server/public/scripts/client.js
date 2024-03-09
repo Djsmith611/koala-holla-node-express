@@ -21,15 +21,15 @@ function getKoalas() {
       console.log(response.data);
       viewKoalas.innerHTML = '';
       let koalas = response.data;
-
       koalas.forEach(koala => {
         let row = document.createElement('tr');
         row.innerHTML = `
         <td>${koala.name}</td>
         <td>${koala.age}</td>
         <td>${koala.color}</td>
-        <td>${koala.ready}</td>
+        <td>${koala.ready} <button class="ready-button">Ready</button></td>
         <td>${koala.notes}</td>
+        <button class="delete-button">Delete</button>
         `
         viewKoalas.appendChild(row);
         console.log('koala added!');
