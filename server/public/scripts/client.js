@@ -23,25 +23,25 @@ function getKoalas() {
       let koalas = response.data;
       
       koalas.forEach(koala => {
-        let ready = koala.ready;
+        let ready = koala.readyToTransfer;
         if(ready === true) {
-          ready = yes;
+          ready = 'yes';
         } else{
-          ready = false;
+          ready = 'no';
         }
 
         let row = document.createElement('tr');
         row.innerHTML = `
         <td>${koala.name}</td>
         <td>${koala.age}</td>
-        <td>${koala.color}</td>
+        <td>${koala.favoriteColor}</td>
         <td>${koala.notes}</td>
         <td>${ready}</td>
-        <td><button class="ready-button" onclick="readyToggleKoala(${koala.id})">Ready</button><td>
-        <button class="delete-button" onclick="transferKoala(${koala.id})">Transfer</button>
+        <td class="data-button" ><button class="ready-button" onclick="readyToggleKoala(${koala.id})">Toggle</button></td>
+        <td class="data-button"><button class="delete-button" onclick="transferKoala(${koala.id})">Transfer</button></td>
         `
         viewKoalas.appendChild(row);
-        console.log('koala added!');
+        // console.log('koala added!');
       });
     })
     .catch((error) => {
@@ -55,11 +55,14 @@ function getKoalas() {
  */
 function saveKoala() {
   console.log('in Save Koala');
+
+  let readyToTransfer = readyTransferIn.value.toLowerCase() === 'yes';
+
   let koalaToSave = {
     name: nameIn.value,
-    age: ageIn.value,
     color: colorIn.value,
-    ready: readyTransferIn.value,
+    age: parseInt(ageIn.value, 10),
+    ready: readyToTransfer,
     notes: notesIn.value,
   };
 
@@ -89,7 +92,7 @@ function transferKoala(id) {
     });
 }
 
-function readyToggleKoala() {
+function readyToggleKoala(id) {
   axios
     .put(`/koalas/${id}`)
     .then((response) => {

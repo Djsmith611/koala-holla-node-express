@@ -4,7 +4,7 @@ const pg = require("pg");
 
 // DB CONNECTION
 const pool = new pg.Pool({
-  database: "koallaholla",
+  database: "koalaholla",
   host: "localhost",
   port: "5432",
 });
@@ -35,13 +35,17 @@ koalaRouter.post("/", (req, res) => {
   `;
 
   // console.log("req.body", req.body);
-
+  // console.log('req.body.name', req.body.name);
+  // console.log('req.body.color', req.body.color);
+  // console.log('req.body.age', req.body.age);
+  // console.log('req.body.ready', req.body.ready);
+  // console.log('req.body.notes', req.body.notes);
   pool
     .query(queryText, [
       req.body.name,
-      req.body.favoriteColor,
+      req.body.color,
       req.body.age,
-      req.body.readyToTransfer,
+      req.body.ready,
       req.body.notes
     ])
     .then(() => {
@@ -57,12 +61,12 @@ koalaRouter.post("/", (req, res) => {
 koalaRouter.put("/:id", (req, res) => {
   let queryText = `
     UPDATE "koalas"
-    SET "readyToTransfer" = $1
-    WHERE "id" = $2;
+    SET "readyToTransfer" = NOT "readyToTransfer"
+    WHERE "id" = $1;
   `;
 
   pool
-    .query(queryText, [req.body.ready, req.params.id])
+    .query(queryText, [req.params.id])
     .then((result) => {
       if (result.rowCount === 0) {
         res.status(404).send('Koala not found.');
