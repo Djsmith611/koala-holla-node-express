@@ -21,15 +21,24 @@ function getKoalas() {
       console.log(response.data);
       viewKoalas.innerHTML = '';
       let koalas = response.data;
+      
       koalas.forEach(koala => {
+        let ready = koala.ready;
+        if(ready === true) {
+          ready = yes;
+        } else{
+          ready = false;
+        }
+
         let row = document.createElement('tr');
         row.innerHTML = `
         <td>${koala.name}</td>
         <td>${koala.age}</td>
         <td>${koala.color}</td>
-        <td>${koala.ready} <button class="ready-button">Ready</button></td>
         <td>${koala.notes}</td>
-        <button class="delete-button">Delete</button>
+        <td>${ready}</td>
+        <td><button class="ready-button" onclick="readyToggleKoala(${koala.id})">Ready</button><td>
+        <button class="delete-button" onclick="transferKoala(${koala.id})">Transfer</button>
         `
         viewKoalas.appendChild(row);
         console.log('koala added!');
@@ -67,11 +76,25 @@ function saveKoala() {
     });
 }
 
-function evacuateKoalas() {
+function transferKoala(id) {
   axios
-    .delete("/koalas")
+    .delete(`/koalas/${id}`)
     .then((response) => {
       console.log(response);
+      getKoalas();
+    })
+    .catch((error) => {
+      alert(error);
+      console.error(error);
+    });
+}
+
+function readyToggleKoala() {
+  axios
+    .put(`/koalas/${id}`)
+    .then((response) => {
+      console.log(response);
+      getKoalas();
     })
     .catch((error) => {
       alert(error);

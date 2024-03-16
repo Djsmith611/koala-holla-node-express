@@ -19,7 +19,10 @@
       <input type="text" id="name-in" value="" placeholder="Name">
       <input type="number" id="age-in" value="" placeholder="Age">
       <input type="text" id="color-in" value="" placeholder="Favorite Color">
-      <input type="text" id="ready-transfer-in" value="" placeholder="Transfer">
+      <label for="ready-transfer-in">Ready for Transfer?</label><select id="ready-transfer-in" name="yesno">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
       <input type="text" id="notes-in" value="" placeholder="Notes">
       <button type="button" id="add-button">Add Koala</button>
     </section>
@@ -31,8 +34,10 @@
             <th>Name</th>
             <th>Age</th>
             <th>Favorite Color</th>
-            <th>Ready for Transfer</th>
             <th>Notes</th>
+            <th>Ready for Transfer</th>
+            <th>Toggle Ready</th>
+            <th>Transfer</th>
           </tr>
         </thead>
         <tbody id="view-koalas"></tbody>
